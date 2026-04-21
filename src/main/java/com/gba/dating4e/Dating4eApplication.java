@@ -15,9 +15,10 @@ public class Dating4eApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(Dating4eApplication.class, args);
-
+/**
 		FileSystem fs = ctx.getBean(FileSystem.class);
 		System.out.println(DataSize.ofBytes(fs.getFreeDiskSpace()).toBytes() + " GB");
+ **/
 	}
 
 }
