@@ -20,7 +20,12 @@ public class FsCommands {
     // Usando spring dependency injection (field injection)
     // @Autowired private FileSystem fs;
 
-    // usando spring dependency injection (constructor injection)
+    /**
+     * usando spring dependency injection (constructor injection)
+     * Cuando se inicia esl contenedor de spring, spring usara reflection
+     * para construir un objeto de tipo FileSystem y tambien llama al constructor parametrizado
+     * FsCommand y pasar la referencia del FileSystem.
+     */
     private final FileSystem fs;
     @Autowired
     public FsCommands(FileSystem fs){

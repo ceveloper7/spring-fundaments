@@ -9,7 +9,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Component for an abstraction of a file System for store picture in file system
+ * Component for an abstraction of a file System for store picture in file system.
+ * Spring construye primero FileSystem ya este bean es necesitado por PhotoService y
+ * PhotoService es requerido por PhotoCommand
  *
  */
 @Service
@@ -38,6 +40,7 @@ public class FileSystem {
         try{
             return Files.readAllBytes(root.resolve(fileName));
         }catch (IOException e){
+            // lanzamos excepcion si la imagen no existe
             throw new UncheckedIOException(e);
         }
     }
