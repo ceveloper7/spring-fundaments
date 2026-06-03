@@ -6,15 +6,22 @@ import org.springframework.stereotype.Service;
 
 import java.io.UncheckedIOException;
 import java.util.Optional;
+import java.util.UUID;
 
+/**
+ * PhotoService interactua con FileSystem y AwtBicubicThumbnail
+ * FileSystem <----uses--- |PhotoService| ---uses---> AwtBicubicThumbnail
+ */
 @Service
 public class PhotoService {
 
     private final FileSystem fs;
+    private final AwtBicubicThumbnail thumbnail;
 
     @Autowired
-    public PhotoService(FileSystem fs){
+    public PhotoService(FileSystem fs, AwtBicubicThumbnail thumbnail){
         this.fs = fs;
+        this.thumbnail = thumbnail;
     }
 
     // retorna un Optional, puede o no puede retornar una foto
@@ -27,5 +34,20 @@ public class PhotoService {
             // si se produce un excepcion al cargar la imagen, retornamos Optional.empty()
             return Optional.empty();
         }
+    }
+
+    /**
+     *
+     * @param imageBytes -> imagen que se va a guardar
+     * @return
+     */
+    public String upload(byte[] imageBytes){
+        String imageName = UUID.randomUUID().toString();
+        // 1. almacenamos la imagen original
+        fs.store(imageName + ".jpg", imageBytes);
+        // 2. almacenamos una miniatura
+        byte[] thumbnailBytes = thumbnail.thumbnail(imageBytes);
+        fs.store(imageName + ".jpg", thumbnailBytes);
+        return imageName;
     }
 }

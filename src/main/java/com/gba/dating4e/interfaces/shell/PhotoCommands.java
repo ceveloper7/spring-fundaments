@@ -8,6 +8,8 @@ import org.springframework.shell.standard.ShellMethod;
 import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Se implementan una serie de comandos aplicables a fotos
@@ -44,6 +46,12 @@ public class PhotoCommands {
                    }
                 })
                 .orElse("Image not found");
+    }
+
+    @ShellMethod("Upload photo")
+    public String uploadPhoto(String fileName) throws IOException{
+        byte[] bytes = Files.readAllBytes(Paths.get(fileName));
+        return "Uploaded" + photoService.upload(bytes);
     }
 
 }
