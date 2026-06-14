@@ -2,6 +2,7 @@ package com.gba.dating4e.core.photo;
 
 import com.gba.dating4e.core.FileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.UncheckedIOException;
@@ -16,10 +17,13 @@ import java.util.UUID;
 public class PhotoService {
 
     private final FileSystem fs;
-    private final AwtBicubicThumbnail thumbnail;
+    // tenemos dos candidatos de implementacion: AwtBicubicThumbnail, AwtNearestNeighborThumbnail
+    @Qualifier("qualityThumbnailRenderer")
+    private final Thumbnail thumbnail;
 
+    // constructor injection
     @Autowired
-    public PhotoService(FileSystem fs, AwtBicubicThumbnail thumbnail){
+    public PhotoService(FileSystem fs, Thumbnail thumbnail){
         this.fs = fs;
         this.thumbnail = thumbnail;
     }
